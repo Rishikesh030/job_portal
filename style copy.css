@@ -163,7 +163,7 @@
 
     .hero {
       height: 100vh;
-      background: url('./Image/photo-1521737604893-d14cc237f11d\ \(1\).jpg') center/cover no-repeat;
+      background: url('/photo-1521737604893-d14cc237f11d\ \(1\).jpg') center/cover no-repeat;
       display: flex;
       flex-direction: column;
       align-items: center;
