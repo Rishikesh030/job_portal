@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Help Yourself – Job Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style copy.css">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init();</script>
+</head>
+
+<body>
+<!-- Animated Header -->
+  <header class="header">
+    <div class="logo">
+      <img src="./Image/HY.jpg" alt="HY Logo" />
+      <h1>Help Yourself</h1>
+    </div>
+    <div class="nav-icons">
+      <a href="https://facebook.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/24/733/733547.png" alt="FB"></a>
+      <a href="https://instagram.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/24/2111/2111463.png" alt="IG"></a>
+      <a href="https://linkedin.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/24/174/174857.png" alt="LinkedIn"></a>
+    </div>
+  </header>
+   <!-- ✅ Vertical Navbar -->
+<!-- Animated Sidebar Navigation -->
+  <div class="side-nav">
+    <a href="#home" title="Home"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png" alt="Home"></a>
+    <a href="#intro" title="Intro"><img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Intro"></a>
+    <a href="#jobs" title="Jobs"><img src="./Image/Job.png" alt="Jobs"></a>
+    <a href="#about" title="About"><img src="https://cdn-icons-png.flaticon.com/512/1077/1077063.png" alt="About"></a>
+    <a href="#contact" title="Contact"><img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" alt="Contact"></a>
+  </div>
+  <div class="hero" id="home">
+    <h1>Explore Opportunities</h1>
+    <p>Find jobs that fit your skills & passion</p>
+  </div>
+  </section>
+
+  <section class="intro-section" id="intro">
+    <h2>:- All-in-one Platform for IT Employees :-</h2>
+    <p data-aos="fade-right">
+      <b>One-stop destination designed specifically for IT professionals. We bring together everything you need to grow
+        your career — from job opportunities to the latest tech updates and skill-building courses — all in one
+        place.</b>
+    </p>
+    <div class="feature-cards">
+      <div class="feature-card">
+        <h3>Public Job Board</h3>
+        <p>Discover and apply to top IT jobs from multiple companies — all in one place. Your next opportunity awaits!
+        </p>
+      </div>
+      <div class="feature-card">
+        <h3>Technology Blog</h3>
+        <p>Stay updated with the latest trends, tools, and insights in the IT industry. Empower your career with fresh
+          knowledge and expert tips. <strong>Coming Soon...</strong></p>
+      </div>
+      <div class="feature-card">
+        <h3>Courses</h3>
+        <p>Access curated resources and courses to enhance your technical skills <br><strong>Coming Soon...</strong></p>
+      </div>
+    </div>
+
+  <section class="section" id="jobs">
+      <h2>Active Job Listings</h2>
+      <div class="dropdown-filter">
+        <label for="techFilter">Filter by Technology: </label>
+        <select id="techFilter">
+          <option value="all">All</option>
+        </select>
+      </div>
+      <div class="job-list" id="jobContainer"></div>
+    </section>
+
+  <section class="about-section" id="about">
+      <div class="bubble-bg">
+        <div class="content">
+          <h2>About HelpYourself</h2>
+          <p>
+           <b>HelpYourself is your go-to platform for IT career growth, tech insights, and upskilling.
+            We bring you the latest job listings, technology trends, and curated courses — all in one place.
+          </b> </p>
+          <ul>
+            <li>📌 Public job board with IT openings</li>
+            <li>📌 Tech blogs & career guidance</li>
+            <li>📌 Learning resources to upskill</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  <section class="lets-talk light-version" id="contact">
+  <div class="talk-left" data-aos="fade-right">
+    <h4>Excited to collaborate? Let’s build something impactful.</h4>
+    <h1>Let’s Talk <span>↗</span></h1>
+  </div>
+  <div class="talk-right" data-aos="fade-left">
+    <a href="mailto:contact@helpyourself.com">
+      <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email" />
+      contact@helpyourself.com
+    </a>
+    <div class="talk-icons">
+      <a href="#"><img src="./Image/FB.png" alt="Facebook"></a>
+      <a href="#"><img src="./Image/Insta.png" alt="Instagram"></a>
+      <a href="#"><img src="./Image/Link.png" alt="LinkedIn"></a>
+    </div>
+  </div>
+</section>
+
+
+
+
+    <div class="modal" id="descModal">
+      <div class="modal-content">
+        <h3 id="modalTitle">Job Title</h3>
+        <p id="modalDesc">Full job description will appear here.</p>
+        <button class="close-btn" onclick="document.getElementById('descModal').style.display='none'">Close</button>
+      </div>
+    </div>
+
+    <footer>
+      &copy; 2025 Help Yourself. All rights reserved.
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    const navLinks = document.querySelectorAll(".side-nav a");
+    const sections = document.querySelectorAll("section");
+
+    window.addEventListener("scroll", () => {
+      let current = "";
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (pageYOffset >= sectionTop - 100) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href").includes(current)) {
+          link.classList.add("active");
+        }
+      });
+    });
+
+      const container = document.getElementById("jobContainer");
+      const filter = document.getElementById("techFilter");
+      const today = new Date().toISOString().split("T")[0];
+      const allJobs = JSON.parse(localStorage.getItem("jobs")) || [];
+      const activeJobs = allJobs.filter(job => new Date(job.expiry) >= new Date(today));
+
+      const techSet = new Set();
+      activeJobs.forEach(job => techSet.add(job.technology));
+      techSet.forEach(tech => {
+        const option = document.createElement("option");
+        option.value = tech;
+        option.textContent = tech;
+        filter.appendChild(option);
+      });
+
+      function renderJobs(selectedTech = "all") {
+        const filteredJobs = selectedTech === "all"
+          ? activeJobs
+          : activeJobs.filter(job => job.technology === selectedTech);
+
+        container.innerHTML = filteredJobs.length > 0
+          ? filteredJobs.map(job => `
+    <div class="job-card" data-aos="fade-up">
+      <h3>${job.title}</h3>
+      <div class="job-details">
+        <div><span>Location:</span> ${job.location}</div>
+        <div><span>Technology:</span> ${job.technology}</div>
+        <div><span>Experience:</span> ${job.experience}</div>
+        <div><span>Company:</span> ${job.organization}</div>
+      </div>
+      <button class="learn-more-btn" onclick="showDesc('${job.title}', \`${job.description}\`)">Learn More</button>
+      <a href="mailto:${job.email}" class="apply-btn">Apply Now</a>
+    </div>
+  `).join("")
+          : `<p style="text-align:center;">No active jobs available.</p>`;
+      }
+
+      function showDesc(title, description) {
+        document.getElementById("modalTitle").textContent = title;
+        document.getElementById("modalDesc").textContent = description;
+        document.getElementById("descModal").style.display = "flex";
+      }
+
+      filter.addEventListener("change", () => {
+        renderJobs(filter.value);
+      });
+
+      renderJobs();
+    </script>
+</body>
+
+</html>
