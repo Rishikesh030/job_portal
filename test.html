@@ -128,35 +128,39 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-      AOS.init();
-    const navLinks = document.querySelectorAll(".side-nav a");
-    const sections = document.querySelectorAll("section");
+  AOS.init();
 
-    window.addEventListener("scroll", () => {
-      let current = "";
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        if (pageYOffset >= sectionTop - 100) {
-          current = section.getAttribute("id");
-        }
-      });
+  const navLinks = document.querySelectorAll(".side-nav a");
+  const sections = document.querySelectorAll("section");
 
-      navLinks.forEach(link => {
-        link.classList.remove("active");
-        if (link.getAttribute("href").includes(current)) {
-          link.classList.add("active");
-        }
-      });
+  window.addEventListener("scroll", () => {
+    let current = "";
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      if (pageYOffset >= sectionTop - 100) {
+        current = section.getAttribute("id");
+      }
     });
 
-      const container = document.getElementById("jobContainer");
-      const filter = document.getElementById("techFilter");
-      const today = new Date().toISOString().split("T")[0];
-      const allJobs = JSON.parse(localStorage.getItem("jobs")) || [];
-      const activeJobs = allJobs.filter(job => new Date(job.expiry) >= new Date(today));
+    navLinks.forEach(link => {
+      link.classList.remove("active");
+      if (link.getAttribute("href").includes(current)) {
+        link.classList.add("active");
+      }
+    });
+  });
 
-      const techSet = new Set();
-      activeJobs.forEach(job => techSet.add(job.technology));
+  const container = document.getElementById("jobContainer");
+  const filter = document.getElementById("techFilter");
+
+  fetch('jobs.json')
+    .then(response => response.json())
+    .then(jobs => {
+      const today = new Date().toISOString().split("T")[0];
+      const activeJobs = jobs.filter(job => new Date(job.expiry) >= new Date(today));
+
+      // Populate technology dropdown
+      const techSet = new Set(activeJobs.map(job => job.technology));
       techSet.forEach(tech => {
         const option = document.createElement("option");
         option.value = tech;
@@ -164,6 +168,7 @@
         filter.appendChild(option);
       });
 
+      // Render jobs
       function renderJobs(selectedTech = "all") {
         const filteredJobs = selectedTech === "all"
           ? activeJobs
@@ -171,33 +176,35 @@
 
         container.innerHTML = filteredJobs.length > 0
           ? filteredJobs.map(job => `
-    <div class="job-card" data-aos="fade-up">
-      <h3>${job.title}</h3>
-      <div class="job-details">
-        <div><span>Location:</span> ${job.location}</div>
-        <div><span>Technology:</span> ${job.technology}</div>
-        <div><span>Experience:</span> ${job.experience}</div>
-        <div><span>Company:</span> ${job.organization}</div>
-      </div>
-      <button class="learn-more-btn" onclick="showDesc('${job.title}', \`${job.description}\`)">Learn More</button>
-      <a href="mailto:${job.email}" class="apply-btn">Apply Now</a>
-    </div>
-  `).join("")
+            <div class="job-card" data-aos="fade-up">
+              <h3>${job.title}</h3>
+              <div class="job-details">
+                <div><span>Location:</span> ${job.location}</div>
+                <div><span>Technology:</span> ${job.technology}</div>
+                <div><span>Experience:</span> ${job.experience}</div>
+                <div><span>Company:</span> ${job.organization}</div>
+              </div>
+              <button class="learn-more-btn" onclick="showDesc('${job.title}', \`${job.description}\`)">Learn More</button>
+              <a href="mailto:${job.email}" class="apply-btn">Apply Now</a>
+            </div>
+          `).join("")
           : `<p style="text-align:center;">No active jobs available.</p>`;
       }
 
-      function showDesc(title, description) {
-        document.getElementById("modalTitle").textContent = title;
-        document.getElementById("modalDesc").textContent = description;
-        document.getElementById("descModal").style.display = "flex";
-      }
+      renderJobs();
 
       filter.addEventListener("change", () => {
         renderJobs(filter.value);
       });
+    });
 
-      renderJobs();
-    </script>
+  function showDesc(title, description) {
+    document.getElementById("modalTitle").textContent = title;
+    document.getElementById("modalDesc").textContent = description;
+    document.getElementById("descModal").style.display = "flex";
+  }
+</script>
+
 </body>
 
 </html>
