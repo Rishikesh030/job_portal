@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Admin Panel – Job Portal</title>
+  <link rel="stylesheet" href="admin.css" />
+</head>
+
+<body>
+  <header class="navbar custom-header animate-header">
+    <div class="header-left">
+      <img src="HY.jpg" alt="HY Logo" class="logo-enhanced" />
+      <h1>Admin Dashboard <span>– Help Yourself</span></h1>
+    </div>
+
+    <div class="header-right">
+      <div class="social-icons">
+        <a href="https://facebook.com" target="_blank" title="Facebook">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="FB" />
+        </a>
+        <a href="https://instagram.com" target="_blank" title="Instagram">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="IG" />
+        </a>
+        <a href="https://linkedin.com" target="_blank" title="LinkedIn">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn" />
+        </a>
+      </div>
+      <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+    </div>
+  </header>
+
+
+<p></p>
+  <br>
+  <main class="admin-container">
+    <section class="form-section">
+      <h2>➕ Add New Job</h2>
+      <form id="jobForm">
+        <div class="form-grid">
+          <input type="text" id="jobId" placeholder="Job ID" required />
+          <input type="text" id="title" placeholder="Job Title" required />
+          <input type="text" id="location" placeholder="Location" required />
+          <input type="text" id="technology" placeholder="Technology (e.g. React)" required />
+          <input type="text" id="experience" placeholder="Years of Experience" required />
+          <input type="text" id="organization" placeholder="Organization Name" required />
+          <input type="email" id="email" placeholder="Contact Email" required />
+          <input type="date" id="expiry" required />
+        </div>
+        <textarea id="description" placeholder="Job Description" rows="4" required></textarea>
+        <button type="submit" class="save-btn">💾 Save Job</button>
+      </form>
+    </section>
+
+    <section class="job-list-section">
+      <h2>📋 All Active Jobs</h2>
+      <div id="jobList" class="job-list"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    if (localStorage.getItem("isAdmin") !== "true") {
+      window.location.href = "login.html";
+    }
+
+    function logout() {
+      localStorage.removeItem("isAdmin");
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+
+</html>
