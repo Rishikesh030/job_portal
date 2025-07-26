@@ -127,83 +127,67 @@
     </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-  AOS.init();
+   <script>
+    AOS.init();
 
-  const navLinks = document.querySelectorAll(".side-nav a");
-  const sections = document.querySelectorAll("section");
+    const container = document.getElementById("jobContainer");
+    const filter = document.getElementById("techFilter");
 
-  window.addEventListener("scroll", () => {
-    let current = "";
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      if (pageYOffset >= sectionTop - 100) {
-        current = section.getAttribute("id");
-      }
-    });
+    fetch("jobs.json")
+      .then(res => res.json())
+      .then(data => {
+        const today = new Date().toISOString().split("T")[0];
+        const activeJobs = data.filter(job => new Date(job.expiry) >= new Date(today));
 
-    navLinks.forEach(link => {
-      link.classList.remove("active");
-      if (link.getAttribute("href").includes(current)) {
-        link.classList.add("active");
-      }
-    });
-  });
+        const techSet = new Set();
+        activeJobs.forEach(job => techSet.add(job.technology));
+        techSet.forEach(tech => {
+          const option = document.createElement("option");
+          option.value = tech;
+          option.textContent = tech;
+          filter.appendChild(option);
+        });
 
-  const container = document.getElementById("jobContainer");
-  const filter = document.getElementById("techFilter");
+        renderJobs(activeJobs);
 
-  fetch('jobs.json')
-    .then(response => response.json())
-    .then(jobs => {
-      const today = new Date().toISOString().split("T")[0];
-      const activeJobs = jobs.filter(job => new Date(job.expiry) >= new Date(today));
+        filter.addEventListener("change", () => {
+          const selectedTech = filter.value;
+          const filtered = selectedTech === "all"
+            ? activeJobs
+            : activeJobs.filter(job => job.technology === selectedTech);
+          renderJobs(filtered);
+        });
 
-      // Populate technology dropdown
-      const techSet = new Set(activeJobs.map(job => job.technology));
-      techSet.forEach(tech => {
-        const option = document.createElement("option");
-        option.value = tech;
-        option.textContent = tech;
-        filter.appendChild(option);
+        function renderJobs(jobs) {
+          container.innerHTML = jobs.length > 0
+            ? jobs.map(job => `
+                <div class="job-card" data-aos="fade-up">
+                  <h3>${job.title}</h3>
+                  <div class="job-details">
+                    <div><strong>Location:</strong> ${job.location}</div>
+                    <div><strong>Technology:</strong> ${job.technology}</div>
+                    <div><strong>Experience:</strong> ${job.experience}</div>
+                    <div><strong>Company:</strong> ${job.organization}</div>
+                  </div>
+                  <button class="learn-more-btn" onclick="showDesc('${job.title}', \`${job.description}\`)">Learn More</button>
+                  <a href="mailto:${job.email}" class="apply-btn">Apply Now</a>
+                </div>
+              `).join("")
+            : `<p style="text-align:center;">No active jobs available.</p>`;
+        }
+
+        window.showDesc = function (title, description) {
+          document.getElementById("modalTitle").textContent = title;
+          document.getElementById("modalDesc").textContent = description;
+          document.getElementById("descModal").style.display = "flex";
+        };
+      })
+      .catch(err => {
+        container.innerHTML = `<p style="text-align:center;color:red;">Failed to load job listings. Please try again later.</p>`;
+        console.error("Error loading jobs.json", err);
       });
+  </script>
 
-      // Render jobs
-      function renderJobs(selectedTech = "all") {
-        const filteredJobs = selectedTech === "all"
-          ? activeJobs
-          : activeJobs.filter(job => job.technology === selectedTech);
-
-        container.innerHTML = filteredJobs.length > 0
-          ? filteredJobs.map(job => `
-            <div class="job-card" data-aos="fade-up">
-              <h3>${job.title}</h3>
-              <div class="job-details">
-                <div><span>Location:</span> ${job.location}</div>
-                <div><span>Technology:</span> ${job.technology}</div>
-                <div><span>Experience:</span> ${job.experience}</div>
-                <div><span>Company:</span> ${job.organization}</div>
-              </div>
-              <button class="learn-more-btn" onclick="showDesc('${job.title}', \`${job.description}\`)">Learn More</button>
-              <a href="mailto:${job.email}" class="apply-btn">Apply Now</a>
-            </div>
-          `).join("")
-          : `<p style="text-align:center;">No active jobs available.</p>`;
-      }
-
-      renderJobs();
-
-      filter.addEventListener("change", () => {
-        renderJobs(filter.value);
-      });
-    });
-
-  function showDesc(title, description) {
-    document.getElementById("modalTitle").textContent = title;
-    document.getElementById("modalDesc").textContent = description;
-    document.getElementById("descModal").style.display = "flex";
-  }
-</script>
 
 </body>
 
