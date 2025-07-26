@@ -132,10 +132,11 @@
 
     const container = document.getElementById("jobContainer");
     const filter = document.getElementById("techFilter");
-
-    fetch("jobs.json")
-      .then(res => res.json())
-      .then(data => {
+fetch("jobs.json")
+  .then(res => res.json())
+  .then(data => {
+    const allJobs = data;
+ {
         const today = new Date().toISOString().split("T")[0];
         const activeJobs = data.filter(job => new Date(job.expiry) >= new Date(today));
 
