@@ -1,1 +1,24 @@
-[]
+[
+  {
+    "jobId": "001",
+    "title": "Frontend Developer",
+    "location": "Remote",
+    "technology": "ReactJS",
+    "experience": "2+ years",
+    "organization": "TechNova",
+    "email": "hr@technova.com",
+    "expiry": "2025-08-31",
+    "description": "Work on modern frontend technologies and deliver performant UI components."
+  },
+  {
+    "jobId": "002",
+    "title": "Backend Developer",
+    "location": "Bangalore",
+    "technology": "Node.js",
+    "experience": "3+ years",
+    "organization": "CodeBase",
+    "email": "jobs@codebase.com",
+    "expiry": "2025-09-15",
+    "description": "Build scalable backend systems and APIs using Node.js and Express."
+  }
+]
